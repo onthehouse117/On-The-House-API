@@ -4,3 +4,6 @@ README.txt
 #Ignore folder named 'node_modules'
 node_modules/
 node_modules
+
+#Ignore MacOS files
+.DS_Store
