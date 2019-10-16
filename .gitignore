@@ -1,8 +1,0 @@
-#Ignoring file named README.txt
-README.txt
-
-#Ignore folder named 'node_modules'
-node_modules/
-
-#Ignoring file named package-lock.json
-package-lock.json
