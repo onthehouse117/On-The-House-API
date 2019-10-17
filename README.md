@@ -18,7 +18,7 @@ On The House provides the simple option of categorizing housing posts for UCI st
 
 ## Scope
 
-The purpose of our application is to cater to UCI students looking for housing options. The application will specifically include all the housing communities near UCI. In order to verify a user as a student, the application will be require a valid UCI email address for a registering user.
+The purpose of our application is to cater to UCI students looking for housing options. The application will specifically include all the housing communities near UCI. In order to verify a user as a student, the application will require a valid UCI email address for a registering user.
 
 ## Running the Application
 
