@@ -1,5 +1,5 @@
 /* On-The-House API  */
-const user = require('../routers/user');
+const user = require('../routers/users');
 const express = require('express')
 
 const app = express()
