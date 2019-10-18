@@ -5,7 +5,7 @@ const postSchema = mongoose.Schema({
     title:{},
     description:{},
     images:{},
-    messages:{}
+    comments:{}
 
 }, {
     timestamps : true
