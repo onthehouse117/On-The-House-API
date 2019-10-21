@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+/* The User Schema */
 const userSchema = mongoose.Schema(
   {
     firstName: {
@@ -67,6 +67,10 @@ const userSchema = mongoose.Schema(
   }
 );
 
+/** Mongoose middlware 'pre' -> 'save'
+ *  @desc Implementation of mongoose middleware that hashes a password if it is modified before saving.
+ *  @param next The point of control after middleware runs.
+ */
 userSchema.pre("save", async function(next) {
   const user = this;
 
@@ -77,6 +81,9 @@ userSchema.pre("save", async function(next) {
   next();
 });
 
+/** Generate authentication token 
+ *  @desc Generates authentication token for the user using jwt.
+ */
 userSchema.methods.generateAuthToken = async function() {
   const user = this;
   const token = jwt.sign({ _id: user._id.toString() }, "Lyndea Dew");
@@ -85,6 +92,12 @@ userSchema.methods.generateAuthToken = async function() {
   return token;
 };
 
+/** Verify user by credentials
+ *  @desc Verifies a particular user given an email and password
+ *  @param email The email of the user
+ *  @param password The password of the user
+ *  @returns The user if it was verified
+ */
 userSchema.statics.verifyByCredentials = async (email, password) => {
   const user = await User.findOne({ email });
   if (!user) {

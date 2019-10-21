@@ -4,14 +4,14 @@ const router = new express.Router();
 const User = require("../models/user");
 const multer = require("multer");
 
-// User Registration
-router.post("/users", async (req, res) => {
-  // console.log(req.body);
-  const newUser = new User(req.body);
 
-  // We will save the document in our hashing function after it is implemented. For now, save the doc asynchronously
+/**  User Registration Endpoint
+ *   @desc Creates a new User model object. Creates a new authentication token for the user.
+ *   @returns The new user object and authentication token
+*/
+router.post("/users", async (req, res) => {
   try {
-    // await newUser.save()
+    const newUser = new User(req.body);
     const token = await newUser.generateAuthToken();
     res.status(201).send({ newUser, token });
   } catch (e) {
@@ -19,7 +19,10 @@ router.post("/users", async (req, res) => {
   }
 });
 
-// User login
+/** User Login Endpoint
+ *  @desc Logs in a user using email and password. Creates a new authentication token for the user.
+ *  @returns The user object and authentication token.
+ */
 router.post("/users/login", async (req, res) => {
   try {
     const user = await User.verifyByCredentials(
@@ -33,6 +36,10 @@ router.post("/users/login", async (req, res) => {
   }
 });
 
+/** User Logout Endpoint
+ *  @desc Logs a user out of a particular session. Deletes the authentication token provided in header.
+ *  @param req The req header must contain a valid jwt. Valdated by multer middleware and auth function 'auth'
+ */
 router.post("/users/logout", auth, async (req, res) => {
   try {
     req.user.tokens = req.user.tokens.filter(token => {
@@ -45,7 +52,10 @@ router.post("/users/logout", auth, async (req, res) => {
   }
 });
 
-
+/** User LogoutAll Endpoint
+ *  @desc Logs a user out of all existing sessions. Deletes all tokens associated with the user.
+ *  @param req The req header must contain a valid jwt. Validated by multer middleware and auth function 'auth'
+ */
 router.post("/users/logoutAll", auth, async (req, res) => {
     try {
         req.user.tokens = [];

@@ -1,11 +1,15 @@
+/* Authentication middleware for the user */
+
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-
+/** Authentication verification function
+ *  @desc Verifies that the req header contains a valid jwt
+ *  @param req Must contain a header 'Authorization' with a Bearer token. Param will contain the user if verified.
+ */
 const auth = async (req, res, next) => {
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = jwt.verify(token, "Lyndea Dew");
-    console.log(decoded._id)
     const user = await User.findOne({
       _id: decoded._id,
       "tokens.token": token
