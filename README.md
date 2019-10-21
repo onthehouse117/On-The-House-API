@@ -22,3 +22,39 @@ The purpose of our application is to cater to UCI students looking for housing o
 
 ## Running the Application
 
+First, clone the repository using 'git clone' command, or download the ZIP via GitHub.
+
+Next, make sure you have npm and nodejs installed. You can check for that by running -
+```
+npm -v
+node -v
+```
+Finally, make sure you are in the source folder of this repository to follow the rest of the steps below.
+
+### Backend Node Server
+
+In order to setup the backend node server, run the following commands.
+```
+cd backend
+npm i
+```
+These commands will install dependencies required to run the server onto your computer. Then, start the server by typing -
+```
+npm run start
+```
+
+### Frontend React App
+
+In order to setup the frontend react app, run the following commands.
+```
+cd frontend
+npm i
+```
+
+These commands will install dependencies required to run the react application onto your computer. Then, start the app by typing - 
+```
+npm run start
+```
+
+
+
