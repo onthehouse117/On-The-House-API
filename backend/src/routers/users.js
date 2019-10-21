@@ -35,7 +35,6 @@ router.post("/users/login", async (req, res) => {
 
 router.post("/users/logout", auth, async (req, res) => {
   try {
-    console.log(req.user.tokens)
     req.user.tokens = req.user.tokens.filter(token => {
       return token.token !== req.token;
     });
@@ -45,5 +44,18 @@ router.post("/users/logout", auth, async (req, res) => {
     res.status(500).send(e);
   }
 });
+
+
+router.post("/users/logoutAll", auth, async (req, res) => {
+    try {
+        req.user.tokens = [];
+        await req.user.save();
+        res.status(200).send()
+    }
+    catch(e) {
+        res.status(500).send(e);   
+    }
+  });
+  
 
 module.exports = router;
