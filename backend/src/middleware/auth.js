@@ -5,10 +5,12 @@ const auth = async (req, res, next) => {
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = jwt.verify(token, "Lyndea Dew");
-    const user = await user.findOne({
+    console.log(decoded._id)
+    const user = await User.findOne({
       _id: decoded._id,
       "tokens.token": token
     });
+    console.log(user)
     if (!user) {
       throw new Error("User is not registered");
     }
@@ -16,6 +18,9 @@ const auth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (e) {
-    res.status(401).send(e);
+    res.status(401).send('error');
   }
 };
+
+
+module.exports = auth;
