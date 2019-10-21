@@ -79,11 +79,23 @@ userSchema.pre("save", async function(next) {
 
 userSchema.methods.generateAuthToken = async function() {
   const user = this;
-  const token = jwt.sign( {_id: user._id.toString()}, 'Lyndea Dew');
-  user.tokens = user.tokens.concat({token});
+  const token = jwt.sign({ _id: user._id.toString() }, "Lyndea Dew");
+  user.tokens = user.tokens.concat({ token });
   await user.save();
   return token;
-}
+};
+
+userSchema.statics.verifyByCredentials = async (email, password) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("Username or password is not correct");
+  }
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw new Error("Username or password is not correct");
+  }
+  return user;
+};
 
 const User = mongoose.model("User", userSchema);
 
