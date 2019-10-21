@@ -8,7 +8,8 @@ router.post('/users', async (req, res) => {
     
     // We will save the document in our hashing function after it is implemented. For now, save the doc asynchronously
     try {
-        await newUser.save() 
+        // await newUser.save()
+        const token = await newUser.generateAuthToken();
         res.status(201).send(newUser);
     }
     catch (e) {

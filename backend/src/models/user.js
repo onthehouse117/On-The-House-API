@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true
     },
-    lastName:{
+    lastName: {
       type: String,
       required: true,
       trim: true
@@ -52,22 +52,38 @@ const userSchema = mongoose.Schema(
           throw new Error("Must be atleast 13 years old to register.");
         }
       }
-    } //We need age because our users need to be over 13 years old.
+    }, //We need age because our users need to be over 13 years old.
+    tokens: [
+      {
+        token: {
+          type: String,
+          required: true
+        }
+      }
+    ]
   },
   {
     timestamps: true
   }
 );
 
-userSchema.pre('save', async function(next) {
+userSchema.pre("save", async function(next) {
   const user = this;
 
-  if (user.isModified('password')) {
+  if (user.isModified("password")) {
     user.password = await bcrypt.hash(user.password, 8);
   }
-  
+
   next();
-})
+});
+
+userSchema.methods.generateAuthToken = async function() {
+  const user = this;
+  const token = jwt.sign( {_id: user._id.toString()}, 'Lyndea Dew');
+  user.tokens = user.tokens.concat({token});
+  await user.save();
+  return token;
+}
 
 const User = mongoose.model("User", userSchema);
 
