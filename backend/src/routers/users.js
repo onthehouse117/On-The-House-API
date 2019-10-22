@@ -3,6 +3,8 @@ const auth = require("../middleware/auth");
 const router = new express.Router();
 const User = require("../models/user");
 const multer = require("multer");
+const {sendFirstEmail} = require('../emails/account');
+
 
 
 /**  User Registration Endpoint
@@ -12,6 +14,7 @@ const multer = require("multer");
 router.post("/users", async (req, res) => {
   try {
     const newUser = new User(req.body);
+    sendFirstEmail(newUser.email, newUser.firstName);
     const token = await newUser.generateAuthToken();
     res.status(201).send({ newUser, token });
   } catch (e) {
@@ -66,6 +69,37 @@ router.post("/users/logoutAll", auth, async (req, res) => {
         res.status(500).send(e);   
     }
   });
+  
+
+  router.patch('/users/me', auth, async (req, res) => {
+      const updates = Object.keys(req.body);
+      const allowedUpdates = ['firstName', 'lastName', 'email', 'password', 'age'];
+      const isValidOperation = updates.every( (update) => {
+            return allowedUpdates.includes(update);
+      })
+      if (!isValidOperation) {
+          res.status(400).send({error: 'Invalid update(s)!'});
+      }
+      try {
+          updates.forEach((update) => req.user[update] = req.body[update])
+          await req.user.save();
+          res.status(200).send(req.user);
+      }
+      catch(e) {
+        res.status(400).send(e);
+      }
+  })
+
+
+  router.delete('/users/me', auth, async (req, res) => {
+      try {
+        await req.user.remove();
+        res.status(200).send(req.user);
+      }
+      catch(e) {
+          res.status(500).send(e);
+      }
+  })
   
 
 module.exports = router;

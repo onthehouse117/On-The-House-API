@@ -86,7 +86,7 @@ userSchema.pre("save", async function(next) {
  */
 userSchema.methods.generateAuthToken = async function() {
   const user = this;
-  const token = jwt.sign({ _id: user._id.toString() }, "Lyndea Dew");
+  const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
   user.tokens = user.tokens.concat({ token });
   await user.save();
   return token;
@@ -109,6 +109,16 @@ userSchema.statics.verifyByCredentials = async (email, password) => {
   }
   return user;
 };
+
+
+userSchema.methods.toJSON = function () { // We are overloading the toJSON method, which is called when you pass the user to response body.
+  const user = this;
+  const userObject = user.toObject();
+  delete userObject.password;
+  delete userObject.tokens;
+
+  return userObject;
+}
 
 const User = mongoose.model("User", userSchema);
 
