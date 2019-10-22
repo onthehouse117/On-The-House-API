@@ -69,7 +69,12 @@ router.post("/users/logoutAll", auth, async (req, res) => {
         res.status(500).send(e);   
     }
   });
-  
+
+/** Patch User Endpoint
+ *  @desc Updates the user in a given list of fields. Validates that the fields provided are mutable.
+ *  @param req Contains the fields that need to be modified with their new values
+ *  @returns The changed user object is returned
+ */
 
   router.patch('/users/me', auth, async (req, res) => {
       const updates = Object.keys(req.body);
@@ -89,8 +94,11 @@ router.post("/users/logoutAll", auth, async (req, res) => {
         res.status(400).send(e);
       }
   })
-
-
+/** Delete User endpoint
+ *  @desc Deletes the logged in user.
+ *  @param req Contains the authentication token in the header. Middleware authenticates the user
+ *  @returns The user that was successfully deleted
+ */
   router.delete('/users/me', auth, async (req, res) => {
       try {
         await req.user.remove();
