@@ -35,9 +35,9 @@ const userSchema = mongoose.Schema(
         if (value.toLowerCase().includes("password")) {
           throw new Error('Password cannot contain keyword: "password"');
         }
-        // var exp = RegExp("^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$");
-        if (value.length < 8) {
-          throw new Error("Password must be atleast 8 characters long");
+        var regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/
+        if (!regex.test(value)) {
+          throw new Error("Password must meet the following requirements:\n Minimum 8 characters including at least 1 digit, 1 uppercase letter, 1 lowercase letter");
         }
       }
     },
