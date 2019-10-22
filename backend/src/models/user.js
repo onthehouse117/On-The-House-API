@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+​
 /* The User Schema */
 const userSchema = mongoose.Schema(
   {
@@ -64,21 +64,29 @@ const userSchema = mongoose.Schema(
     timestamps: true
   }
 );
-
+​
+/** Set up the virtual to connect the User and Post schemas
+ */
+userSchema.virtual('posts', {
+  ref: 'Post',
+  localField: '_id',
+  foreignField: 'author'
+})
+​
 /** Mongoose middlware 'pre' -> 'save'
  *  @desc Implementation of mongoose middleware that hashes a password if it is modified before saving.
  *  @param next The point of control after middleware runs.
  */
 userSchema.pre("save", async function(next) {
   const user = this;
-
+​
   if (user.isModified("password")) {
     user.password = await bcrypt.hash(user.password, 8);
   }
-
+​
   next();
 });
-
+​
 /** Generate authentication token 
  *  @desc Generates authentication token for the user using jwt.
  */
@@ -89,7 +97,7 @@ userSchema.methods.generateAuthToken = async function() {
   await user.save();
   return token;
 };
-
+​
 /** Verify user by credentials
  *  @desc Verifies a particular user given an email and password
  *  @param email The email of the user
@@ -107,17 +115,17 @@ userSchema.statics.verifyByCredentials = async (email, password) => {
   }
   return user;
 };
-
-
+​
+​
 userSchema.methods.toJSON = function () { // We are overloading the toJSON method, which is called when you pass the user to response body.
   const user = this;
   const userObject = user.toObject();
   delete userObject.password;
   delete userObject.tokens;
-
+​
   return userObject;
 }
-
+​
 const User = mongoose.model("User", userSchema);
-
+​
 module.exports = User;
