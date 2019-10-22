@@ -7,7 +7,7 @@ const sendFirstEmail = (email, firstName) => {
     to: email,
     from: "support@onthehouse.com",
     subject: "Welcome to On The House!",
-    text: `Greatings from our team ${firstName}! We are glad you joined our student network at UCI! At On The House subleasing is made easy! Simply.....`
+    text: `Greetings from our team ${firstName}!\nWe are glad you joined our student network at UCI!\n\nAt On The House, subleasing is made easy! Simply.....`
   });
 };
 

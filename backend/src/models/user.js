@@ -41,14 +41,12 @@ const userSchema = mongoose.Schema(
         }
       }
     },
-    age: {
-      type: Number,
+    DOB: {
+      type: Date,
       required: true,
       validate(value) {
-        if (value < 0) {
-          throw new Error("Age must be a positive number.");
-        }
-        if (value < 13) {
+        const now = new Date()
+        if (now.getFullYear() - value.getFullYear() < 13) {
           throw new Error("Must be atleast 13 years old to register.");
         }
       }
