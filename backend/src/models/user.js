@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Post = require('./post');
 ​
 /* The User Schema */
 const userSchema = mongoose.Schema(
@@ -125,6 +126,15 @@ userSchema.methods.toJSON = function () { // We are overloading the toJSON metho
 ​
   return userObject;
 }
+
+userSchema.pre('remove', async function (next) {
+  const user = this;
+
+  await Post.deleteMany({author: user._id})
+
+  next()
+
+})
 ​
 const User = mongoose.model("User", userSchema);
 ​
