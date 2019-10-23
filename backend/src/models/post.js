@@ -8,7 +8,7 @@ const postSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true
-    },
+    },    
     description: {
       type: String,
       required: true,
@@ -18,10 +18,37 @@ const postSchema = mongoose.Schema(
       type: String,
       required: false
     },
+    community: {
+      type: String,
+      required: true,
+      validate(value) {
+        var communities = [
+          "Plaza Verde",
+          "Camino Del Sol",
+          "Vista Del Campo Norte",
+          "Vista Del Campo",
+          "Puerta del Sol",
+          "Arroyo Vista",
+          "Campus Village",
+          "Palo Verde",
+          "Verano Place",
+          "Ambrose",
+          "Berkeley Court",
+          "Columbia Court",
+          "Dartmouth Court",
+          "Harvard Court",
+          "Cornell Court",
+          "Stanford Court"
+        ]
+        if (communities.includes(value) == false) {
+          throw new Error("Please select the listed communities.");
+        }
+      }
+    },
     author: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User'
     },
     comments: [
       {
