@@ -9,6 +9,16 @@ const postSchema = mongoose.Schema(
       required: true,
       trim: true
     },    
+    price: {
+      type: mongoose.Decimal128,
+      required: false,
+      trim: true,
+      validate(value) {
+        if(value <= 0 && value > 10000) {
+          throw new Error("Price out of range.");
+        }
+      }
+    },
     description: {
       type: String,
       required: true,
