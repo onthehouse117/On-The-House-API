@@ -5,6 +5,10 @@ README.txt
 node_modules/
 node_modules
 
+#Ignore folder named 'env'
+env/
+env
+
 #Ignore MacOS files
 .DS_Store
 
