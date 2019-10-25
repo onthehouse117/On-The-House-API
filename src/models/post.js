@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
-​
+
 /*The Post Schema */
 const postSchema = mongoose.Schema(
   {
@@ -73,12 +73,9 @@ const postSchema = mongoose.Schema(
     timestamps : true
   }
 );
-​
-​
-​
-​
-​
+
+
+
 const Post = mongoose.model('Post', postSchema)
-​
+
 module.exports = Post
-​
