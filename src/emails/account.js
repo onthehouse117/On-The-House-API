@@ -10,14 +10,15 @@ sgMail.setApiKey(process.env.SENDGRID_KEY);
  * @param email The email address of the user.
  * @param firstName The first name of the user, to address him in the email
  */
-const sendFirstEmail = (email, firstName) => {
+const sendFirstEmail = (email, firstName, url) => {
   sgMail.send({
     to: email,
     from: "support@onthehouse.com",
-    subject: "Welcome to On The House!",
-    text: `Greetings from our team ${firstName}!\nWe are glad you joined our student network at UCI!\n\nAt On The House, subleasing is made easy! Simply.....`
+    subject: "Welcome to On The House! Please Verify Your Email",
+    text: `Greetings from our team ${firstName}!\nWe are glad you joined our student network at UCI!\n\nPlease Verify your email using this link\n${url}`
   });
 };
+
 
 module.exports = {
   sendFirstEmail

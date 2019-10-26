@@ -14,7 +14,7 @@ const auth = async (req, res, next) => {
       _id: decoded._id,
       "tokens.token": token
     });
-    console.log(user)
+    // console.log(user)
     if (!user) {
       throw new Error("User is not registered");
     }
@@ -22,9 +22,25 @@ const auth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (e) {
-    res.status(401).send('error');
+    res.status(401).send("error");
   }
 };
 
+const verified = async (req, res, next) =>{
+  try{
+    if(!req.user){
+      throw new Error('User is not registed');
+    }
+    if(!req.user.verified){
+      throw new Error("Please verify your account");
+    }
+  } catch(e){
+    res.status(401).send(e);
+  }
+  next()
+}
 
-module.exports = auth;
+module.exports = {
+  auth,
+  verified
+};
