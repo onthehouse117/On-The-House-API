@@ -13,7 +13,7 @@ router.post("/users", async (req, res) => {
   try {
     const newUser = new User(req.body);
     const token = await newUser.generateAuthToken();
-    const url = process.env.DOMAIN_BASE_URL + "?token=" + token;
+    const url = process.env.DOMAIN_BASE_URL + "/verify" + "?token=" + token;
     sendFirstEmail(newUser.email, newUser.firstName, url);
     res.status(201).send({ newUser, token });
   } catch (e) {
