@@ -43,13 +43,13 @@ router.post("/users/login", async (req, res) => {
  *  @desc Logs a user out of a particular session. Deletes the authentication token provided in header.
  *  @param req The req header must contain a valid jwt. Valdated by multer middleware and auth function 'auth'
  */
-router.post("/users/logout", auth, verified, async (req, res) => {
+router.post("/users/logout", auth, async (req, res) => {
   try {
     req.user.tokens = req.user.tokens.filter(token => {
       return token.token !== req.token;
     });
     await req.user.save();
-    res.status(200).send();
+    res.status(200).send('Successfully logged out of one token.');
   } catch (e) {
     res.status(500).send(e);
   }
@@ -59,11 +59,11 @@ router.post("/users/logout", auth, verified, async (req, res) => {
  *  @desc Logs a user out of all existing sessions. Deletes all tokens associated with the user.
  *  @param req The req header must contain a valid jwt. Validated by multer middleware and auth function 'auth'
  */
-router.post("/users/logoutAll", auth, verified, async (req, res) => {
+router.post("/users/logoutAll", auth, async (req, res) => {
   try {
     req.user.tokens = [];
     await req.user.save();
-    res.status(200).send();
+    res.status(200).send("Successfully logged out of all tokens.");
   } catch (e) {
     res.status(500).send(e);
   }
