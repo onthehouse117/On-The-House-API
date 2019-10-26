@@ -32,7 +32,6 @@ router.post("/users/login", async (req, res) => {
       req.body.password
     );
     const token = await user.generateAuthToken();
-    console.log(token);
     res.status(200).send({ user, token });
   } catch (e) {
     res.status(400).send(e);
@@ -71,7 +70,6 @@ router.post("/users/logoutAll", auth, async (req, res) => {
 
 router.post("/users/verify", auth, async (req, res) => {
   try {
-    console.log('Got past auth middleware')
     req.user.verified = true;
     await req.user.save();
     res.status(200).send(req.user);
