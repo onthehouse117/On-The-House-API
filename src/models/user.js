@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const Post = require('./post');
+const Post = require("./post");
 
 const userSchema = mongoose.Schema(
   {
@@ -35,9 +35,11 @@ const userSchema = mongoose.Schema(
         if (value.toLowerCase().includes("password")) {
           throw new Error('Password cannot contain keyword: "password"');
         }
-        var regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/
+        var regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
         if (!regex.test(value)) {
-          throw new Error("Password must meet the following requirements:\n Minimum 8 characters including at least 1 digit, 1 uppercase letter, 1 lowercase letter");
+          throw new Error(
+            "Password must meet the following requirements:\n Minimum 8 characters including at least 1 digit, 1 uppercase letter, 1 lowercase letter"
+          );
         }
       }
     },
@@ -45,7 +47,7 @@ const userSchema = mongoose.Schema(
       type: Date,
       required: true,
       validate(value) {
-        const now = new Date()
+        const now = new Date();
         if (now.getFullYear() - value.getFullYear() < 13) {
           throw new Error("Must be atleast 13 years old to register.");
         }
@@ -58,7 +60,11 @@ const userSchema = mongoose.Schema(
           required: true
         }
       }
-    ]
+    ],
+    verified: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: true
@@ -66,11 +72,11 @@ const userSchema = mongoose.Schema(
 );
 /** Set up the virtual to connect the User and Post schemas
  */
-userSchema.virtual('posts', {
-  ref: 'Post',
-  localField: '_id',
-  foreignField: 'author'
-})
+userSchema.virtual("posts", {
+  ref: "Post",
+  localField: "_id",
+  foreignField: "author"
+});
 
 /** Mongoose middlware 'pre' -> 'save'
  *  @desc Implementation of mongoose middleware that hashes a password if it is modified before saving.
@@ -86,7 +92,7 @@ userSchema.pre("save", async function(next) {
   next();
 });
 
-/** Generate authentication token 
+/** Generate authentication token
  *  @desc Generates authentication token for the user using jwt.
  */
 userSchema.methods.generateAuthToken = async function() {
@@ -113,25 +119,25 @@ userSchema.statics.verifyByCredentials = async (email, password) => {
     throw new Error("Username or password is not correct");
   }
   return user;
-}
+};
 
-userSchema.methods.toJSON = function () { // We are overloading the toJSON method, which is called when you pass the user to response body.
+userSchema.methods.toJSON = function() {
+  // We are overloading the toJSON method, which is called when you pass the user to response body.
   const user = this;
   const userObject = user.toObject();
   delete userObject.password;
   delete userObject.tokens;
 
   return userObject;
-}
+};
 
-userSchema.pre('remove', async function (next) {
+userSchema.pre("remove", async function(next) {
   const user = this;
 
-  await Post.deleteMany({author: user._id})
+  await Post.deleteMany({ author: user._id });
 
-  next()
-
-})
+  next();
+});
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
