@@ -9,10 +9,11 @@ const multer = require("multer");
  *   @desc Creates a new Post model object associated with User object.
  *   @returns The new post object.
 */
-router.post("/post", auth, async (req, res) => {
+router.post("/posts", auth, async (req, res) => {
   try {
     const newPost = new Post(req.body);
-    res.status(20).send({ newPost });
+    await newPost.save();
+    res.status(200).send({ newPost });
   } catch (e) {
     res.status(500).send(e);
   }
@@ -24,12 +25,30 @@ router.post("/post", auth, async (req, res) => {
 */  
 router.get("/posts/:id", auth, async (req, res) => {
   try {
-    Post.findOne({
-      _id: mongoose.Types.ObjectId(req.params.id)
-    })
-    //Insert 404 error here
+    const post = await Post.findById(req.params.id)
+    if(!post) {
+      res.status(404).send({error: 'Post Not Found'});
+    }
+    else {
+      res.status(200).send( {post} );
+    }
+  } catch (e) {
+    res.status(500)
+  }
+});
 
-    res.status(200).send({ post });
+/**  Delete Post By ID Endpoint
+ *   @desc Deletes a Post model object by its associated ID.
+*/  
+router.delete("/posts/:id", auth, async (req, res) => {
+  try {
+    const post = await Post.findByIdAndDelete(req.params.id)
+    if(!post) {
+      res.status(404).send({error: 'Post not '});
+    }
+    else {
+      res.status(200).send( {post} );
+    }
   } catch (e) {
     res.status(500)
   }
