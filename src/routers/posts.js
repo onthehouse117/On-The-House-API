@@ -44,7 +44,7 @@ router.delete("/posts/:id", auth, async (req, res) => {
   try {
     const post = await Post.findByIdAndDelete(req.params.id)
     if(!post) {
-      res.status(404).send({error: 'Post not '});
+      res.status(404).send({error: 'Post Not Found'});
     }
     else {
       res.status(200).send( {post} );
