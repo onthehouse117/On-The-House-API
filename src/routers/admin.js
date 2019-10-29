@@ -38,7 +38,7 @@ router.post('/admin/deleteUser', auth, admin, async (req, res) =>{
             options.email = req.body.email
         }
 
-        if(!options._id && !options.email){
+        if(!options){
             throw new Error({'error':'Provide one of the following in order to complete this action: user ID, user email'})
         }
         const user = await User.findOne(options)
