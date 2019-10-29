@@ -130,7 +130,9 @@ userSchema.methods.toJSON = function() {
 
   return userObject;
 };
-
+/** Mongoose middlware 'pre' -> 'remove'
+ *  @desc In the event that a user is removed, the user's posts will be automatically deleted.
+ */
 userSchema.pre("remove", async function(next) {
   const user = this;
 
