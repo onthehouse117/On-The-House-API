@@ -30,5 +30,22 @@ router.post('/admin/create', async (req, res) =>{
  *  @desc The admin can delete any user with the email address or _id of the user.
  */
 router.post('/admin/deleteUser', auth, admin, async (req, res) =>{
-    
+    try{
+        var options = {}
+        options._id = req.body._id
+        options.email = req.body._id
+
+        if(!options._id && !options.email){
+            throw new Error({'error':'Provide one of the following in order to complete this action: user ID, user email'})
+        }
+        const deletedUser = await User.findOneAndRemove(options)
+
+        if(!deletedUser){
+            throw new Error({'error': 'The user could not be found'})
+        } 
+
+        res.status(200).send(deletedUser)
+    } catch(e){
+        res.status(400).send(e)
+    }
 })
