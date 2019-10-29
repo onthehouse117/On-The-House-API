@@ -12,10 +12,9 @@ router.post('/admin/create', async (req, res) =>{
         if(req.body.secret === process.env.JWT_SECRET){
             delete req.body.secret
             const adminUser = new User(req.body)
-            const token = adminUser.generateAuthToken()
             adminUser.admin = true
             adminUser.verified = true
-            await adminUser.save()
+            const token = await adminUser.generateAuthToken()
             res.status(201).send({adminUser, token})
 
         } else{
