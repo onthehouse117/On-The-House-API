@@ -34,24 +34,27 @@ const verified = async (req, res, next) =>{
     if(!req.user.verified){
       throw new Error("Please verify your account");
     }
+    next()
   } catch(e){
     res.status(401).send(e);
   }
-  next()
+  
 }
 
 const admin = async (req, res, next) =>{
   try{
     if(!req.user){
+      console.log('Problem is here')
       throw new Error('Admin does not exist')
     }
     if(!req.user.admin){
       throw new Error('This user is not an admin')
     }
+    next()
   } catch(e){
     res.status(401).send(e)
   }
-  next()
+  
 }
 
 module.exports = {

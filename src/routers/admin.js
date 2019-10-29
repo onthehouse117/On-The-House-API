@@ -31,20 +31,24 @@ router.post('/admin/create', async (req, res) =>{
 router.post('/admin/deleteUser', auth, admin, async (req, res) =>{
     try{
         var options = {}
-        options._id = req.body._id
-        options.email = req.body._id
+        if(req.body._id){
+            options._id = req.body._id
+        }
+        if(req.body.email){
+            options.email = req.body.email
+        }
 
         if(!options._id && !options.email){
             throw new Error({'error':'Provide one of the following in order to complete this action: user ID, user email'})
         }
-        const deletedUser = await User.findOneAndRemove(options)
-
-        if(!deletedUser){
+        const user = await User.findOne(options)
+        if(!user){
             throw new Error({'error': 'The user could not be found'})
         } 
-
-        res.status(200).send(deletedUser)
+        await user.remove()
+        res.status(200).send(user)
     } catch(e){
+        console.log(e)
         res.status(400).send(e)
     }
 })
