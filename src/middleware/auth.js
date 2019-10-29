@@ -40,7 +40,22 @@ const verified = async (req, res, next) =>{
   next()
 }
 
+const admin = async (req, res, next) =>{
+  try{
+    if(!req.user){
+      throw new Error('Admin does not exist')
+    }
+    if(!req.user.admin){
+      throw new Error('This user is not an admin')
+    }
+  } catch(e){
+    res.status(401).send(e)
+  }
+  next()
+}
+
 module.exports = {
   auth,
-  verified
+  verified,
+  admin
 };

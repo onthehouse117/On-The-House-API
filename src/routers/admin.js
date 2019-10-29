@@ -1,5 +1,5 @@
 const express = require("express");
-const {auth, verified, admin} = require("../middleware/auth");
+const {auth, admin} = require("../middleware/auth");
 const router = new express.Router();
 const User = require("../models/user");
 const multer = require("multer");
@@ -13,14 +13,22 @@ router.post('/admin/create', async (req, res) =>{
             delete req.body.secret
             const adminUser = new User(req.body)
             const token = adminUser.generateAuthToken()
+            adminUser.admin = true
+            adminUser.verified = true
+            await adminUser.save()
             res.status(201).send({adminUser, token})
 
         } else{
             throw new Error({'error':'Secret not provided'})
         }
-
     } catch(e){
         res.status(400).send(e);
     }
+})
 
+/** Delete user endpoint for admin
+ *  @desc The admin can delete any user with the email address or _id of the user.
+ */
+router.post('/admin/deleteUser', auth, admin, async (req, res) =>{
+    
 })
