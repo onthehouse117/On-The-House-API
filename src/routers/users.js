@@ -68,6 +68,10 @@ router.post("/users/logoutAll", auth, async (req, res) => {
   }
 });
 
+/** User Verify Endpoint
+ *  @desc Logs a user out of all existing sessions. Deletes all tokens associated with the user.
+ *  @param req The req header must contain a valid jwt. Validated by multer middleware and auth function 'auth'
+ */
 router.post("/users/verify", auth, async (req, res) => {
   try {
     req.user.verified = true;
