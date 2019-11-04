@@ -5,7 +5,10 @@ const express = require('express');
 const userRouter = require('./routers/users');
 const postRouter = require('./routers/posts');
 const adminRouter = require('./routers/admin');
+
+/*Middleware*/
 const cors = require('cors');
+const morgan = require('morgan')
 
 const app = express()
 const port = process.env.PORT || 3000;
@@ -13,6 +16,9 @@ const port = process.env.PORT || 3000;
 // Enable cross-origin requests.
 app.use(cors());
 app.options('*', cors());
+
+//Enable dev logging
+app.use(morgan('dev'))
 
 app.use(express.json())
 
