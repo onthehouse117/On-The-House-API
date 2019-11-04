@@ -42,7 +42,7 @@ router.post("/posts/getPosts", auth, verified, async (req, res) =>{
   try{
     var options = {}
 
-    if(!req.params.community){
+    if(req.params.community){
       options.community = req.params.community
     }
 
