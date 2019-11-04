@@ -38,7 +38,7 @@ router.get("/posts/:id", auth, verified, async (req, res) => {
 
 /** Get Posts by Options */
 
-router.post("/posts", auth, verified, async (req, res) =>{
+router.post("/posts/getPosts", auth, verified, async (req, res) =>{
   try{
     var options = {}
 
