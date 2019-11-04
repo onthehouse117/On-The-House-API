@@ -64,7 +64,12 @@ const userSchema = mongoose.Schema(
     verified: {
       type: Boolean,
       default: false
+    },
+    admin: {
+      type: Boolean,
+      default: false
     }
+
   },
   {
     timestamps: true
