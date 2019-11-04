@@ -36,6 +36,28 @@ router.get("/posts/:id", auth, verified, async (req, res) => {
   }
 });
 
+/** Get Posts by Options */
+
+router.get("/posts", auth, verified, async (req, res) =>{
+  try{
+    var options = {}
+
+    if(!req.params.community){
+      options.community = req.params.community
+    }
+
+    const tasks = await Post.find(options)
+
+    if(!tasks){
+      throw new Error("No results were found")
+    }
+    res.status(200).send(tasks)
+
+  } catch(e){
+    res.status(404).send(e)
+  }
+})
+
 /**  Delete Post By ID Endpoint
  *   @desc Deletes a Post model object by its associated ID.
  */
