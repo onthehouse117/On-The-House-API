@@ -42,10 +42,10 @@ router.post("/posts/getPosts", auth, verified, async (req, res) =>{
   try{
     var options = {}
 
-    if(req.params.community){
-      options.community = req.params.community
+    if(req.body.community){
+      options.community = req.body.community
     }
-
+    console.log(options)
     const tasks = await Post.find(options)
 
     if(!tasks){
