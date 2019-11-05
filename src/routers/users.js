@@ -90,7 +90,7 @@ router.post("/users/verify", auth, async (req, res) => {
 
 router.patch("/users/me", auth, verified, async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ["firstName", "lastName", "email", "password", "age"];
+  const allowedUpdates = ["firstName", "lastName", "email", "password", "DOB"];
   const isValidOperation = updates.every(update => {
     return allowedUpdates.includes(update);
   });
