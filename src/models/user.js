@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Post = require("./post");
+const Comment = require("./comment")
 
 const userSchema = mongoose.Schema(
   {
@@ -83,6 +84,12 @@ userSchema.virtual("posts", {
   foreignField: "author"
 });
 
+userSchema.virtual("comments", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "author"
+})
+
 /** Mongoose middlware 'pre' -> 'save'
  *  @desc Implementation of mongoose middleware that hashes a password if it is modified before saving.
  *  @param next The point of control after middleware runs.
@@ -142,6 +149,7 @@ userSchema.pre("remove", async function(next) {
   const user = this;
 
   await Post.deleteMany({ author: user._id });
+  await Comment.deleteMany({author: user._id})
 
   next();
 });

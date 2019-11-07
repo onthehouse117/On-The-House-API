@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
-
+const Comment = require('./comment')
 /*The Post Schema */
 const postSchema = mongoose.Schema(
   {
@@ -59,20 +58,25 @@ const postSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'User'
-    },
-    comments: [
-      {
-        comment: {
-          type: String,
-          required: false
-        }
-      }
-    ]
+    }
   }, 
   {
     timestamps : true
   }
 );
+
+postSchema.virtual("comments", {
+  ref: 'Comment',
+  localField: "_id",
+  foreignField: "post"
+})
+
+postSchema.pre("remove", async function (next){
+  const post = this
+  await Comment.deleteMany({"post" : post._id})
+
+  next()
+})
 
 
 
