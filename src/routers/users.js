@@ -15,7 +15,7 @@ router.post("/users", async (req, res) => {
     const token = await newUser.generateAuthToken();
     const url = process.env.DOMAIN_BASE_URL + "/verify" + "?token=" + token;
     sendFirstEmail(newUser.email, newUser.firstName, url);
-    res.status(201).send({ newUser, token });
+    res.status(201).send({ user: newUser, token });
   } catch (e) {
     res.status(400).send(e);
   }
