@@ -23,7 +23,8 @@ router.get('/comments/:id', auth, verified, async (req, res) =>{
 
 router.post('/comments/createComment', auth, verified, async (req, res) =>{
     try{
-        const comment = new Comment({...req.body, req.user._id})
+        req.body.author = req.user._id
+        const comment = new Comment(req.body)
         await comment.save()
         res.status(201).send({comment})
 

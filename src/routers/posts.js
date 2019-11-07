@@ -11,6 +11,7 @@ const {buildFieldOptions, buildFilterOptions} = require('../helpers/queries')
  */
 router.post("/posts", auth, verified, async (req, res) => {
   try {
+    req.body.author = req.user._id
     const newPost = new Post(req.body);
     await newPost.save();
     res.status(201).send({ newPost });
