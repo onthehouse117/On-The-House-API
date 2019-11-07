@@ -37,13 +37,6 @@ app.use(adminRouter);
 app.use(commentsRouter);
 
 
-
-/* Basic test endpoint. Note: If app using JSON as means of communication, this endpoint will NOT work */
-app.post('/test', (req, res) => {
-    //console.log('Ran test endpoint')
-    res.send('This is my test router')
-})
-
 app.listen(port, () =>{
     console.log('Server is up on port ' + port)
 })
