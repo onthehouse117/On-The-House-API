@@ -1,3 +1,19 @@
+const buildFieldOptions = body =>{
+    var fieldOptions = {}
+
+    if(body.community){
+      fieldOptions.community = req.body.community
+    }
+    if(body.author){
+      fieldOptions.author = req.body.author
+    }
+    if(body.priceRange){
+      fieldOptions.price = buildMongoPriceRange(req.body.priceRange)
+    }
+
+  return fieldOptions
+}
+
 const buildMongoPriceRange = priceRange =>{
     var price = {}
     if(priceRange.gt){
@@ -19,5 +35,5 @@ const buildMongoPriceRange = priceRange =>{
 }
 
 module.exports = {
-    buildMongoPriceRange
+    buildFieldOptions
 }

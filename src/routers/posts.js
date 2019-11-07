@@ -3,7 +3,7 @@ const { auth, verified } = require("../middleware/auth");
 const router = new express.Router();
 const Post = require("../models/post");
 const multer = require("multer");
-const {buildMongoPriceRange} = require('../helpers/queries')
+const {buildFieldOptions} = require('../helpers/queries')
 
 /**  Post Creation Endpoint
  *   @desc Creates a new Post model object associated with User object.
@@ -41,18 +41,10 @@ router.get("/posts/:id", auth, verified, async (req, res) => {
 
 router.post("/posts/getPosts", auth, verified, async (req, res) =>{
   try{
-    var options = {}
+    
+    var fieldOptions = buildFieldOptions()
 
-    if(req.body.community){
-      options.community = req.body.community
-    }
-    if(req.body.author){
-      options.author = req.body.author
-    }
-    if(req.body.priceRange){
-      options.price = buildMongoPriceRange(req.body.priceRange)
-    }
-    const tasks = await Post.find(options)
+    const tasks = await Post.find(fieldOptions)
 
     if(!tasks){
       throw new Error("No results were found")
