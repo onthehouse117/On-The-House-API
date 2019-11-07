@@ -20,3 +20,14 @@ router.get('/comments/:id', auth, verified, async (req, res) =>{
         res.status(400).send(e)
     }
 })
+
+router.post('/comments/createComment', auth, verified, async (req, res) =>{
+    try{
+        const comment = new Comment({...req.body, req.user._id})
+        await comment.save()
+        res.status(201).send({comment})
+
+    } catch(e){
+        res.status(400).send(e)
+    }
+})

@@ -13,7 +13,7 @@ router.post("/posts", auth, verified, async (req, res) => {
   try {
     const newPost = new Post(req.body);
     await newPost.save();
-    res.status(200).send({ newPost });
+    res.status(201).send({ newPost });
   } catch (e) {
     res.status(500).send(e);
   }
