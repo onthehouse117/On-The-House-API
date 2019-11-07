@@ -3,6 +3,7 @@ const { auth, verified } = require("../middleware/auth");
 const router = new express.Router();
 const Post = require("../models/post");
 const multer = require("multer");
+const {buildFieldOptions, buildFilterOptions} = require('../helpers/queries')
 
 /**  Post Creation Endpoint
  *   @desc Creates a new Post model object associated with User object.
@@ -10,9 +11,10 @@ const multer = require("multer");
  */
 router.post("/posts", auth, verified, async (req, res) => {
   try {
+    req.body.author = req.user._id
     const newPost = new Post(req.body);
     await newPost.save();
-    res.status(200).send({ newPost });
+    res.status(201).send({ newPost });
   } catch (e) {
     res.status(500).send(e);
   }
@@ -40,12 +42,12 @@ router.get("/posts/:id", auth, verified, async (req, res) => {
 
 router.post("/posts/getPosts", auth, verified, async (req, res) =>{
   try{
-    var options = {}
+    
+    var fieldOptions = buildFieldOptions(req.body)
 
-    if(req.body.community){
-      options.community = req.body.community
-    }
-    const tasks = await Post.find(options)
+    var filterOptions = buildFilterOptions(req.body)
+
+    const tasks = await Post.find(fieldOptions, null, filterOptions)
 
     if(!tasks){
       throw new Error("No results were found")
