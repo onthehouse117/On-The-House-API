@@ -19,6 +19,10 @@ const sendFirstEmail = (email, firstName, url) => {
   });
 };
 
+const sendSupportEmail = (email, res) => {
+  
+}
+
 
 module.exports = {
   sendFirstEmail
