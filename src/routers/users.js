@@ -3,7 +3,7 @@ const {auth, verified} = require("../middleware/auth");
 const router = new express.Router();
 const User = require("../models/user");
 const multer = require("multer");
-const { sendFirstEmail } = require("../emails/account");
+const { sendFirstEmail, sendSupportEmail } = require("../emails/account");
 
 /**  User Registration Endpoint
  *   @desc Creates a new User model object. Creates a new authentication token for the user.
@@ -82,6 +82,16 @@ router.post("/users/verify", auth, async (req, res) => {
   }
 });
 
+/** User Contact Support Email Endpoint
+ *  @desc Allows the user to contact our website's support.
+ */
+router.post("/users/contactSupport", auth, verified, async (req, res) =>{
+  try{
+    sendSupportEmail(req.user, req.body.subject, req.body.message)
+  } catch(e) {
+    res.status(400).send(e)
+  }
+});
 /** Patch User Endpoint
  *  @desc Updates the user in a given list of fields. Validates that the fields provided are mutable.
  *  @param req Contains the fields that need to be modified with their new values

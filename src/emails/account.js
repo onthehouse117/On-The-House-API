@@ -19,11 +19,11 @@ const sendFirstEmail = (email, firstName, url) => {
   });
 };
 
-const sendSupportEmail = (email, req) => {
+const sendSupportEmail = (user, subject, message) => {
   sgMail.send({
     from: "support@onthehouse.com",
-    subject: `[Support][UserID:${req.user._id}]${req.body.subject}`,
-    text: `${req.body.message}`
+    subject: `[Support][UserID:${user._id}]${subject}`,
+    text: `${message}`
   })
 }
 
