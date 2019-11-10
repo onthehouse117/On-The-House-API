@@ -23,10 +23,12 @@ const postSchema = mongoose.Schema(
       required: true,
       trim: true
     },
-    images: {
-      type: Buffer,
+    images: [
+      {
+      type: String,
       required: false
-    },
+      }
+    ],
     community: {
       type: String,
       required: true,
