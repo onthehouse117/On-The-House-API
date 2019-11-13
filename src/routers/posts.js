@@ -60,6 +60,35 @@ router.post("/posts/getPosts", auth, verified, async (req, res) =>{
   }
 })
 
+router.patch("/posts/:id", auth, verified, async (req, res) =>{
+  try{
+    const updates = Object.keys(req.body)
+    const post = await Post.findById(req.params.id)
+    if(req.user._id !== post.author){
+      throw new Error("401: The current user is not the author of the post")
+    }
+
+    const allowedUpdates = ['title', 'description', 'images']
+    const isValidOperation = updates.every(update => {
+      return allowedUpdates.includes(update);
+    });
+
+    if (!isValidOperation) {
+      res.status(400).send({ error: "Invalid update(s)!" });
+    }
+
+    updates.forEach(update => (post[update] = req.body[update]))
+
+    await post.save()
+    res.status(200).send({post})
+  } catch (e){
+    res.status(500).send(e)
+  }
+
+
+  }
+})
+
 /**  Delete Post By ID Endpoint
  *   @desc Deletes a Post model object by its associated ID.
  */
