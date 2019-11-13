@@ -77,5 +77,16 @@ router.delete("/posts/:id", auth, verified, async (req, res) => {
   }
 });
 
+router.patch("/posts/:id/like", auth, verified, async (req, res) => {
+  try{
+    const post = await Post.findById(req.params.id)
+    post[likes]++
+    await post.save()
+    res.status(200).send()
+  } catch(e){
+    res.status(400).send(e)
+  }
+})
+
 
 module.exports = router;
