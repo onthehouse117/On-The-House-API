@@ -64,6 +64,11 @@ const postSchema = mongoose.Schema(
     name: {
       type: String,
       required: true
+    },
+    likes : {
+      type: Number,
+      required: false,
+      default: 0
     }
   }, 
   {
