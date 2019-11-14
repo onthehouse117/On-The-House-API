@@ -50,7 +50,7 @@ router.post("/posts/getPosts", auth, verified, async (req, res) =>{
 
     const posts = await Post.find(fieldOptions, null, filterOptions)
 
-    if(!tasks){
+    if(!posts){
       throw new Error("No results were found")
     }
     res.status(200).send(posts)
@@ -97,7 +97,7 @@ router.delete("/posts/:id", auth, verified, async (req, res) => {
     if (!post) {
       res.status(404).send({ error: "Post Not Found" });
     } else {
-      res.status(200).send({ post });
+      res.status(200).send( post );
     }
   } catch (e) {
     res.status(500);
