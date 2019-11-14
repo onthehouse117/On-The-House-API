@@ -85,8 +85,6 @@ router.patch("/posts/:id", auth, verified, async (req, res) =>{
     res.status(500).send(e)
   }
 
-
-  }
 })
 
 /**  Delete Post By ID Endpoint
