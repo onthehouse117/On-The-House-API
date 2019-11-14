@@ -80,7 +80,7 @@ router.patch("/posts/:id", auth, verified, async (req, res) =>{
     updates.forEach(update => (post[update] = req.body[update]))
 
     await post.save()
-    res.status(200).send({post})
+    res.status(200).send(post)
   } catch (e){
     res.status(500).send(e)
   }

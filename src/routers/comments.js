@@ -27,7 +27,7 @@ router.post('/comments/createComment', auth, verified, async (req, res) =>{
         req.body.name = req.user.firstName.trim() + " " + req.user.lastName.trim()
         const comment = new Comment(req.body)
         await comment.save()
-        res.status(201).send({comment})
+        res.status(201).send(comment)
     } catch(e){
         res.status(400).send(e)
     }
@@ -40,7 +40,7 @@ router.delete('/comments/:id', auth, verified, async (req, res) =>{
             throw new Error({"error":"The user making the request is not the author of the comment"})
         }
         await comment.remove()
-        res.status(200).send({comment})
+        res.status(200).send(comment)
     } catch(e){
         res.status(400).send(e)
     }
