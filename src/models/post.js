@@ -25,8 +25,10 @@ const postSchema = mongoose.Schema(
     },
     images: [
       {
-      type: String,
-      required: false
+        image: {
+        type: String,
+        required: false
+        }
       }
     ],
     community: {
