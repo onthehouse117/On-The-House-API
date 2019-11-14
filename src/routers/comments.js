@@ -14,7 +14,7 @@ router.get('/comments/:id', auth, verified, async (req, res) =>{
         if(!comments){
             throw new Error({"error": "There are no comments for this post"})
         }
-        res.status(200).send({comments})
+        res.status(200).send(comments)
 
     } catch(e){
         res.status(400).send(e)

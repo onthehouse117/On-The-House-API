@@ -48,12 +48,12 @@ router.post("/posts/getPosts", auth, verified, async (req, res) =>{
 
     var filterOptions = buildFilterOptions(req.body)
 
-    const tasks = await Post.find(fieldOptions, null, filterOptions)
+    const posts = await Post.find(fieldOptions, null, filterOptions)
 
     if(!tasks){
       throw new Error("No results were found")
     }
-    res.status(200).send(tasks)
+    res.status(200).send(posts)
 
   } catch(e){
     res.status(404).send(e)
