@@ -72,12 +72,12 @@ const postSchema = mongoose.Schema(
       required: false,
       default: 0
     },
-    startdate: {
-      type: Date(),
+    startDate: {
+      type: Date,
       required: true,
     },
-    enddate: {
-      type: Date(),
+    endDate: {
+      type: Date,
       required: true,
     }
   }, 
