@@ -67,11 +67,6 @@ const postSchema = mongoose.Schema(
       type: String,
       required: true
     },
-    likes : {
-      type: Number,
-      required: false,
-      default: 0
-    },
     startDate: {
       type: Date,
       required: false
