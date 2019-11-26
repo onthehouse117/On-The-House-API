@@ -13,7 +13,7 @@ const postSchema = mongoose.Schema(
       required: true,
       trim: true,
       validate(value) {
-        if(value <= 0 || value > 10000) {
+        if(value <= 100 || value > 10000) {
           throw new Error("Price out of range.");
         }
       }
