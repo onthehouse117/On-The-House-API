@@ -64,9 +64,9 @@ router.patch("/posts/:id", auth, verified, async (req, res) =>{
   try{
     const updates = Object.keys(req.body)
     const post = await Post.findById(req.params.id)
-    if(req.user._id !== post.author){
-      throw new Error("401: The current user is not the author of the post")
-    }
+    // if(req.user._id !== post.author){
+    //   throw new Error("401: The current user is not the author of the post")
+    // }
 
     const allowedUpdates = ['title', 'description', 'price', 'community', 'images']
     const isValidOperation = updates.every(update => {
