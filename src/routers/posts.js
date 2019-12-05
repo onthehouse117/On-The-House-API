@@ -68,7 +68,7 @@ router.patch("/posts/:id", auth, verified, async (req, res) =>{
       throw new Error("401: The current user is not the author of the post")
     }
 
-    const allowedUpdates = ['title', 'description', 'images']
+    const allowedUpdates = ['title', 'description', 'images', 'price']
     const isValidOperation = updates.every(update => {
       return allowedUpdates.includes(update);
     });
