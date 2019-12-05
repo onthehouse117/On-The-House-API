@@ -13,7 +13,7 @@ const postSchema = mongoose.Schema(
       required: true,
       trim: true,
       validate(value) {
-        if(value <= 0 || value > 10000) {
+        if(value < 100 || value > 10000) {
           throw new Error("Price out of range.");
         }
       }
@@ -66,11 +66,6 @@ const postSchema = mongoose.Schema(
     name: {
       type: String,
       required: true
-    },
-    likes : {
-      type: Number,
-      required: false,
-      default: 0
     },
     startDate: {
       type: Date,

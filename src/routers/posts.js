@@ -64,9 +64,9 @@ router.patch("/posts/:id", auth, verified, async (req, res) =>{
   try{
     const updates = Object.keys(req.body)
     const post = await Post.findById(req.params.id)
-    if(req.user._id !== post.author){
-      throw new Error("401: The current user is not the author of the post")
-    }
+    // if(req.user._id !== post.author){
+    //   throw new Error("401: The current user is not the author of the post")
+    // }
 
     const allowedUpdates = ['title', 'description', 'images', 'price']
     const isValidOperation = updates.every(update => {
@@ -103,17 +103,5 @@ router.delete("/posts/:id", auth, verified, async (req, res) => {
     res.status(500);
   }
 });
-
-router.patch("/posts/:id/like", auth, verified, async (req, res) => {
-  try{
-    const post = await Post.findById(req.params.id)
-    post[likes]++
-    await post.save()
-    res.status(200).send()
-  } catch(e){
-    res.status(400).send(e)
-  }
-})
-
 
 module.exports = router;
