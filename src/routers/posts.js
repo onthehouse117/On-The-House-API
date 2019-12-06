@@ -93,10 +93,11 @@ router.patch("/posts/:id", auth, verified, async (req, res) =>{
 
 router.delete("/posts/:id", auth, verified, async (req, res) => {
   try {
-    const post = await Post.findByIdAndDelete(req.params.id);
+    const post = await Post.findOne({_id: req.params.id});
     if (!post) {
       res.status(404).send({ error: "Post Not Found" });
     } else {
+      await post.remove()
       res.status(200).send( post );
     }
   } catch (e) {
