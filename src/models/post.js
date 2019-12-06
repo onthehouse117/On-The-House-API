@@ -13,7 +13,7 @@ const postSchema = mongoose.Schema(
       required: true,
       trim: true,
       validate(value) {
-        if(value <= 100 || value > 10000) {
+        if(value < 100 || value > 10000) {
           throw new Error("Price out of range.");
         }
       }
@@ -23,14 +23,10 @@ const postSchema = mongoose.Schema(
       required: true,
       trim: true
     },
-    images: [
-      {
-        image: {
-        type: String,
-        required: false
-        }
-      }
-    ],
+    image: {
+      type: Buffer,
+      required: false
+    },
     community: {
       type: String,
       required: true,
@@ -69,11 +65,11 @@ const postSchema = mongoose.Schema(
     },
     startDate: {
       type: Date,
-      required: false
+      required: false,
     },
     endDate: {
       type: Date,
-      required: false
+      required: false,
     }
   }, 
   {
