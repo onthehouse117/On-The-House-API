@@ -1,5 +1,5 @@
 const express = require("express");
-const {auth, verified} = require("../middleware/auth");
+const { auth, verified } = require("../middleware/auth");
 const router = new express.Router();
 const User = require("../models/user");
 const multer = require("multer");
@@ -13,7 +13,13 @@ router.post("/users", async (req, res) => {
   try {
     const newUser = new User(req.body);
     const token = await newUser.generateAuthToken();
-    const url = process.env.DOMAIN_BASE_URL + "/verify" + "?token=" + token;
+
+    //HARDCODED FIX THIS
+    const url =
+      "https://onthehouse-190cb.firebaseapp.com/" +
+      "/verify" +
+      "?token=" +
+      token;
     sendFirstEmail(newUser.email, newUser.firstName, url);
     res.status(201).send({ user: newUser, token });
   } catch (e) {
@@ -48,7 +54,7 @@ router.post("/users/logout", auth, async (req, res) => {
       return token.token !== req.token;
     });
     await req.user.save();
-    res.status(200).send('Successfully logged out of one token.');
+    res.status(200).send("Successfully logged out of one token.");
   } catch (e) {
     res.status(500).send(e);
   }
@@ -85,11 +91,11 @@ router.post("/users/verify", auth, async (req, res) => {
 /** User Contact Support Email Endpoint
  *  @desc Allows the user to contact our website's support.
  */
-router.post("/users/contactSupport", auth, verified, async (req, res) =>{
-  try{
-    sendSupportEmail(req.user, req.body.subject, req.body.message)
-  } catch(e) {
-    res.status(400).send(e)
+router.post("/users/contactSupport", auth, verified, async (req, res) => {
+  try {
+    sendSupportEmail(req.user, req.body.subject, req.body.message);
+  } catch (e) {
+    res.status(400).send(e);
   }
 });
 /** Patch User Endpoint

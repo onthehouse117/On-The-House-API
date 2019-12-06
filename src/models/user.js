@@ -126,6 +126,9 @@ userSchema.statics.verifyByCredentials = async (email, password) => {
   if (!user) {
     throw new Error("Username or password is not correct");
   }
+  if (!user.verified) {
+    throw new Error("User is not verified");
+  }
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     throw new Error("Username or password is not correct");
