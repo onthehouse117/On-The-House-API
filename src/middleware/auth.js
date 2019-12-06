@@ -17,13 +17,13 @@ const auth = async (req, res, next) => {
     });
     console.log(user)
     if (!user) {
-      throw new Error("User is not registered");
+      throw new Error({"error": "User is not registered"});
     }
     req.token = token; // {token: token}
     req.user = user;
     next();
   } catch (e) {
-    res.status(401).send("error");
+    res.status(401).send(e);
   }
 };
 
@@ -33,7 +33,7 @@ const verified = async (req, res, next) =>{
       throw new Error('User is not registed');
     }
     if(!req.user.verified){
-      throw new Error("Please verify your account");
+      throw new Error({"error": "Please verify your account"});
     }
     next()
   } catch(e){
