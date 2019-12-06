@@ -123,11 +123,11 @@ userSchema.methods.generateAuthToken = async function() {
  */
 userSchema.statics.verifyByCredentials = async (email, password) => {
   const user = await User.findOne({ email });
-  if (!user.verified) {
-    throw new Error("User is not verified");
-  }
   if (!user) {
     throw new Error("Username or password is not correct");
+  }
+  if (!user.verified) {
+    throw new Error("User is not verified");
   }
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
