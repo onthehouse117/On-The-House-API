@@ -45,11 +45,10 @@ const verified = async (req, res, next) =>{
 const admin = async (req, res, next) =>{
   try{
     if(!req.user){
-      console.log('Problem is here')
-      throw new Error('Admin does not exist')
+      throw new Error({"error":"Admin does not exist"})
     }
     if(!req.user.admin){
-      throw new Error('This user is not an admin')
+      throw new Error({"error": "This user is not an admin"})
     }
     next()
   } catch(e){
