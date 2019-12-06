@@ -36,8 +36,8 @@ router.post('/comments/createComment', auth, verified, async (req, res) =>{
 router.delete('/comments/:id', auth, verified, async (req, res) =>{
     try{
         const comment = await Comment.findById(req.params.id)
-        if(req.user._id !== comment.author){
-            throw new Error({"error":"The user making the request is not the author of the comment"})
+        if(req.user._id !== comment.author && req.user.admin === false){
+            throw new Error({"error":"The user making the request is not the author of the comment or an admin"})
         }
         await comment.remove()
         res.status(200).send(comment)
