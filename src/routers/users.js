@@ -13,7 +13,9 @@ router.post("/users", async (req, res) => {
   try {
     const newUser = new User(req.body);
     const token = await newUser.generateAuthToken();
-    const url = process.env.DOMAIN_BASE_URL + "/verify" + "?token=" + token;
+
+    //HARDCODED FIX THIS
+    const url = "https://onthehouse-190cb.firebaseapp.com/" + "/verify" + "?token=" + token;
     sendFirstEmail(newUser.email, newUser.firstName, url);
     res.status(201).send({ user: newUser, token });
   } catch (e) {
