@@ -33,15 +33,13 @@ router.post("/users", async (req, res) => {
  */
 router.post("/users/login", async (req, res) => {
   try {
+    console.log("hello")
     const user = await User.verifyByCredentials(
       req.body.email,
       req.body.password
     );
-    if(!user){
-      throw new Error({"msg": "The user does not exist"})
-    }
     if(user.verified === false){
-      throw new Error({"msg": "User is not verified."})
+      res.status(400).send({"msg": "User is not verified."})
     }
     const token = await user.generateAuthToken();
     res.status(200).send({ user, token });
