@@ -37,6 +37,12 @@ router.post("/users/login", async (req, res) => {
       req.body.email,
       req.body.password
     );
+    if(!user){
+      throw new Error({"msg": "The user does not exist"})
+    }
+    if(!user.verified){
+      throw new Error({"msg": "User is not verified."})
+    }
     const token = await user.generateAuthToken();
     res.status(200).send({ user, token });
   } catch (e) {
